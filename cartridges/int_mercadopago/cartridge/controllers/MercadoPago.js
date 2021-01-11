@@ -2,7 +2,7 @@
 
 var server = require('server');
 
-server.get('Notification', function (req, res, next) {
+server.get('Notify', function (req, res, next) {
     next();
 });
 
