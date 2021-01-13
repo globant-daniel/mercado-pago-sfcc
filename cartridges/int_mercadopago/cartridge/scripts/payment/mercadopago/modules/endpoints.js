@@ -13,7 +13,7 @@ function createService() {
             svc.addHeader('Content-type', 'application/json');
             svc.addHeader('charset', 'UTF-8');
 
-            svc.setURL(svc.url + (args.path || ''));
+            svc.setURL(svc.URL + (args.path || ''));
 
             if (args.headers && typeof args.headers === 'object') {
                 Object.keys(args.headers).forEach(function (headerName) {
@@ -21,29 +21,26 @@ function createService() {
                 });
             }
 
-            svc.addParam('access_token', configuration.ACCESS_TOKEN);
+            svc.addHeader('Authorization', 'Bearer ' + configuration.ACCESS_TOKEN);
 
-            return args.body || {};
+            return JSON.stringify(args.body || {});
         },
         parseResponse: function (svc, response) {
-            try {
-                return JSON.parse(response.object.text);
-            } catch (_) {
-                return null;
-            }
-        },
-        filterLogMessage: function (msg) {
-            return msg;
+            return response;
         }
     });
 }
 
 module.exports = {
+    /**
+     * @param {Object} body - request body
+     * @returns {dw.svc.Result} request response
+     */
     createPreference: function (body) {
         var service = createService();
         return service.call({
             path: '/checkout/preferences',
-            method: 'GET',
+            method: 'POST',
             body: body
         });
     }

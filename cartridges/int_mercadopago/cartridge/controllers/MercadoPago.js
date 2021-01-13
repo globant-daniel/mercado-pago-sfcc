@@ -2,7 +2,13 @@
 
 var server = require('server');
 
-server.get('Notify', function (req, res, next) {
+server.get('Reentry', function (req, res, next) {
+    res.json(req);
+    next();
+});
+
+server.get('Notfiy', function (req, res, next) {
+    res.json(req);
     next();
 });
 
