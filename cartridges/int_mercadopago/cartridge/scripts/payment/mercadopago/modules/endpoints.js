@@ -9,7 +9,7 @@ function createService() {
 
     return LocalServiceRegistry.createService('MercadoPagoAPI', {
         createRequest: function (svc, args) {
-            svc.setRequestMethod(args.method);
+            svc.setRequestMethod(args.method || 'GET');
             svc.addHeader('Content-type', 'application/json');
             svc.addHeader('charset', 'UTF-8');
 
@@ -42,6 +42,12 @@ module.exports = {
             path: '/checkout/preferences',
             method: 'POST',
             body: body
+        });
+    },
+    getPayment: function (paymentId) {
+        var service = createService();
+        return service.call({
+            path: '/v1/payments/' + paymentId
         });
     }
 };
