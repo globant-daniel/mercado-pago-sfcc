@@ -87,6 +87,10 @@ server.prepend('PlaceOrder', function (req, res, next) {
 
     var preference = MercadoPago.preferences.create(order);
 
+    if (order.getCustomerEmail()) {
+        COHelpers.sendConfirmationEmail(order, req.locale.id);
+    }
+
     res.json({
         error: false,
         continueUrl: IS_PRODUCTION
