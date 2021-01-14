@@ -20,6 +20,8 @@ function get(paymentId) {
     return JSON.parse(response.object.text);
 }
 
+// function create() {}
+
 /**
  * @param {dw.order.Order} order - customer order
  * @param {Object} payment - mercado pago api payment response
@@ -44,5 +46,6 @@ function saveData(order, payment) {
 
 module.exports = {
     get: get,
+    // create: create,
     saveData: saveData
 };

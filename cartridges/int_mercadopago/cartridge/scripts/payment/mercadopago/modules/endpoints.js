@@ -1,6 +1,12 @@
 'use strict';
 
+/*eslint-disable */
+var Preference = require('../documents/preference');
+var Payment = require('../documents/payment');
+/*eslint-enable */
+
 /**
+ * Creates a general-purpose {} with the Mercado Pago API URL.
  * @returns {dw.svc.HTTPService} MercadoPagoAPI service
  */
 function createService() {
@@ -21,7 +27,10 @@ function createService() {
                 });
             }
 
-            svc.addHeader('Authorization', 'Bearer ' + configuration.ACCESS_TOKEN);
+            svc.addHeader(
+                'Authorization',
+                'Bearer ' + configuration.ACCESS_TOKEN
+            );
 
             return JSON.stringify(args.body || {});
         },
@@ -31,23 +40,50 @@ function createService() {
     });
 }
 
-module.exports = {
+var preference = {
     /**
-     * @param {Object} body - request body
+     * Creates a Preference in the Mercado Pago API
+     * @param {Preference} document - preference document
      * @returns {dw.svc.Result} request response
      */
-    createPreference: function (body) {
+    create: function (document) {
         var service = createService();
         return service.call({
             path: '/checkout/preferences',
             method: 'POST',
-            body: body
+            body: document
         });
-    },
-    getPayment: function (paymentId) {
+    }
+};
+
+var payment = {
+    /**
+     * Retrives a payment via API call to Mercado Pago API
+     * @param {string} paymentId mercado pago payment ID
+     * @returns {dw.svc.Result} response result
+     */
+    get: function (paymentId) {
         var service = createService();
         return service.call({
             path: '/v1/payments/' + paymentId
         });
+    },
+    /**
+     * Creates a payment in the Mercado Pago API
+     * @param {Payment} document payment document
+     * @returns {dw.svc.Result} response result
+     */
+    create: function (document) {
+        var service = createService();
+        return service.call({
+            method: 'POST',
+            path: '/v1/payments',
+            body: document
+        });
     }
+};
+
+module.exports = {
+    payment: payment,
+    preference: preference
 };
