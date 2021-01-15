@@ -3,6 +3,9 @@
         <isinclude template="checkout/billing/paymentOptions/creditCardTab" />
     </isif>
     <isif condition="${paymentOption.ID === 'MERCADO_PAGO'}">
-        <isinclude template="checkout/billing/paymentOptions/mercadoPagoTab" />
+        <isinclude template="checkout/billing/paymentOptions/mercadopago/mercadoPagoTab" />
+    </isif>
+    <isif condition="${paymentOption.ID === 'MERCADO_PAGO_REDIRECT'}">
+        <isinclude template="checkout/billing/paymentOptions/mercadopago_redirect/mercadoPagoTab" />
     </isif>
 </isloop>

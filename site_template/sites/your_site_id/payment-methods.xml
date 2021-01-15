@@ -2,8 +2,14 @@
 <payment-settings xmlns="http://www.demandware.com/xml/impex/paymentsettings/2009-09-15">
     <payment-method method-id="MERCADO_PAGO">
         <name xml:lang="x-default">Mercado Pago</name>
-        <description xml:lang="x-default">Mercado Pago Checkout Pro</description>
+        <description xml:lang="x-default">Mercado Pago Credit Card</description>
         <enabled-flag>true</enabled-flag>
         <processor-id>MERCADO_PAGO</processor-id>
+    </payment-method>
+    <payment-method method-id="MERCADO_PAGO_REDIRECT">
+        <name xml:lang="x-default">Mercado Pago Redirect</name>
+        <description xml:lang="x-default">redirects to mercado pago payment page</description>
+        <enabled-flag>true</enabled-flag>
+        <processor-id>MERCADO_PAGO_REDIRECT</processor-id>
     </payment-method>
 </payment-settings>

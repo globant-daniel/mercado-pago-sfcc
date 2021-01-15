@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <payment-processors xmlns="http://www.demandware.com/xml/impex/paymentprocessor/2007-03-31">
     <payment-processor processor-id="MERCADO_PAGO">
-        <description>Mercado Pago Checkout Pro</description>
+        <description>Mercado Pago credit card processor</description>
+        <preferences>
+            <all-instances/>
+            <development/>
+            <staging/>
+            <production/>
+        </preferences>
+    </payment-processor>
+    <payment-processor processor-id="MERCADO_PAGO_REDIRECT">
+        <description>redirects to mercado pago payment page</description>
         <preferences>
             <all-instances/>
             <development/>

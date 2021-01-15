@@ -14,7 +14,14 @@ function getCustomPreference(sitePref) {
 var IS_PRODUCTION = System.getInstanceType() === System.PRODUCTION_SYSTEM;
 
 module.exports = {
-    ACCESS_TOKEN: IS_PRODUCTION
-        ? getCustomPreference('MercadoPago_PRODTOKEN')
-        : getCustomPreference('MercadoPago_DEVTOKEN')
+    api: {
+        ACCESS_TOKEN: IS_PRODUCTION
+            ? getCustomPreference('MercadoPago_PRODTOKEN')
+            : getCustomPreference('MercadoPago_DEVTOKEN')
+    },
+    installments: {
+        ENABLED: getCustomPreference('MercadoPago_EnableInstallments'),
+        MIN_VALUE: getCustomPreference('MercadoPago_InstallmentMinValue'),
+        MAX_QTY: getCustomPreference('MercadoPago_MaxInstallments')
+    }
 };

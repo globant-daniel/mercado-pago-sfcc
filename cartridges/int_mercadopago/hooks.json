@@ -2,11 +2,19 @@
     "hooks": [
         {
             "name": "app.payment.form.processor.mercado_pago",
-            "script": "./cartridge/scripts/hooks/payment/processor/mercado_pago_form_processor"
+            "script": "./cartridge/scripts/hooks/payment/processor/mercadopago/form_processor"
         },
         {
             "name": "app.payment.processor.mercado_pago",
-            "script": "./cartridge/scripts/hooks/payment/processor/mercado_pago_processor"
+            "script": "./cartridge/scripts/hooks/payment/processor/mercadopago/processor"
+        },
+        {
+            "name": "app.payment.form.processor.mercado_pago_redirect",
+            "script": "./cartridge/scripts/hooks/payment/processor/mercadopago_redirect/form_processor"
+        },
+        {
+            "name": "app.payment.processor.mercado_pago_redirect",
+            "script": "./cartridge/scripts/hooks/payment/processor/mercadopago_redirect/processor"
         }
     ]
 }

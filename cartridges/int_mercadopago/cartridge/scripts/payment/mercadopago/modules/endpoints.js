@@ -29,7 +29,7 @@ function createService() {
 
             svc.addHeader(
                 'Authorization',
-                'Bearer ' + configuration.ACCESS_TOKEN
+                'Bearer ' + configuration.api.ACCESS_TOKEN
             );
 
             return JSON.stringify(args.body || {});

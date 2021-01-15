@@ -1,0 +1,10 @@
+<li class="nav-item" data-method-id="${paymentOption.ID}">
+    <a class="nav-link mercado-pago-redirect-tab" data-toggle="tab" href="#mercado-pago-redirect-content" role="tab">
+        <img class="mercado-pago-redirect-option"
+                src="${URLUtils.staticURL('/images/mercado-pago.png')}"
+                height="32"
+                alt="${paymentOption.name}"
+                title="${paymentOption.name}"
+        >
+    </a>
+</li>
