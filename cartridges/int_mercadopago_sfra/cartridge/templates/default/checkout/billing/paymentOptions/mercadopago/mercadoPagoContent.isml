@@ -1,3 +1,16 @@
+<isscript>
+    var MercadoPago = require('*/cartridge/scripts/payment/mercadopago/index');
+    var PUBLIC_KEY = MercadoPago.configuration.api.PUBLIC_KEY;
+</isscript>
+
+<script>
+    (function () {
+        window.MERCADOPAGO_PUBLICKEY = <isprint value="${JSON.stringify(PUBLIC_KEY)}" encoding="off"/>;
+    }());
+</script>
+
+<script src="https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"></script>
+
 <div class="tab-pane mercado-pago-content" id="mercado-pago-content" role="tabpanel">
     <fieldset class="payment-form-fields">
         <input type="hidden" class="form-control"

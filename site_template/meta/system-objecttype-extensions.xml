@@ -2,15 +2,29 @@
 <metadata xmlns="http://www.demandware.com/xml/impex/metadata/2006-10-31">
     <type-extension type-id="SitePreferences">
         <custom-attribute-definitions>
-            <attribute-definition attribute-id="MercadoPago_DEVTOKEN">
-                <display-name xml:lang="x-default">Mercado Pago Development Acess Token</display-name>
+            <attribute-definition attribute-id="MercadoPago_DEV_ACCESSTOKEN">
+                <display-name xml:lang="x-default">Mercado Pago Development Access Token</display-name>
+                <type>password</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+            </attribute-definition>
+            <attribute-definition attribute-id="MercadoPago_PROD_ACCESSTOKEN">
+                <display-name xml:lang="x-default">Mercado Pago Production Access Token</display-name>
+                <type>password</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+            </attribute-definition>
+            <attribute-definition attribute-id="MercadoPago_DEV_PUBLICKEY">
+                <display-name xml:lang="x-default">Mercado Pago Development Public Key</display-name>
                 <type>string</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
                 <min-length>0</min-length>
             </attribute-definition>
-            <attribute-definition attribute-id="MercadoPago_PRODTOKEN">
-                <display-name xml:lang="x-default">Mercado Pago Production Acess Token</display-name>
+            <attribute-definition attribute-id="MercadoPago_PROD_PUBLICKEY">
+                <display-name xml:lang="x-default">Mercado Pago Production Public Key</display-name>
                 <type>string</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
@@ -22,27 +36,15 @@
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
             </attribute-definition>
-            <attribute-definition attribute-id="MercadoPago_InstallmentMinValue">
-                <display-name xml:lang="x-default">Installment Minimum Value</display-name>
-                <type>double</type>
-                <mandatory-flag>false</mandatory-flag>
-                <externally-managed-flag>false</externally-managed-flag>
-            </attribute-definition>
-            <attribute-definition attribute-id="MercadoPago_MaxInstallments">
-                <display-name xml:lang="x-default">Max Number of Installments</display-name>
-                <type>int</type>
-                <mandatory-flag>false</mandatory-flag>
-                <externally-managed-flag>false</externally-managed-flag>
-            </attribute-definition>
         </custom-attribute-definitions>
         <group-definitions>
             <attribute-group group-id="Mercado Pago">
                 <display-name xml:lang="x-default">Mercado Pago</display-name>
-                <attribute attribute-id="MercadoPago_PRODTOKEN"/>
-                <attribute attribute-id="MercadoPago_DEVTOKEN"/>
+                <attribute attribute-id="MercadoPago_PROD_ACCESSTOKEN"/>
+                <attribute attribute-id="MercadoPago_DEV_ACCESSTOKEN"/>
+                <attribute attribute-id="MercadoPago_PROD_PUBLICKEY"/>
+                <attribute attribute-id="MercadoPago_DEV_PUBLICKEY"/>
                 <attribute attribute-id="MercadoPago_EnableInstallments"/>
-                <attribute attribute-id="MercadoPago_InstallmentMinValue"/>
-                <attribute attribute-id="MercadoPago_MaxInstallments"/>
             </attribute-group>
         </group-definitions>
     </type-extension>

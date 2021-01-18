@@ -61,7 +61,7 @@ function Preference(order) {
     this.back_urls = {
         success: returnUrl,
         pending: returnUrl,
-        failure: returnUrl // it may not be appropriate, needs recheck in the future
+        failure: returnUrl // TODO: it may not be appropriate, needs recheck in the future
     };
     this.auto_return = 'approved';
     this.notification_url = URLUtils.https('MercadoPago-Notify').toString();

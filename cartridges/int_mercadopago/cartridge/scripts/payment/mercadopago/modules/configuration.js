@@ -16,12 +16,13 @@ var IS_PRODUCTION = System.getInstanceType() === System.PRODUCTION_SYSTEM;
 module.exports = {
     api: {
         ACCESS_TOKEN: IS_PRODUCTION
-            ? getCustomPreference('MercadoPago_PRODTOKEN')
-            : getCustomPreference('MercadoPago_DEVTOKEN')
+            ? getCustomPreference('MercadoPago_PROD_ACCESSTOKEN')
+            : getCustomPreference('MercadoPago_DEV_ACCESSTOKEN'),
+        PUBLIC_KEY: IS_PRODUCTION
+            ? getCustomPreference('MercadoPago_PROD_PUBLICKEY')
+            : getCustomPreference('MercadoPago_DEV_PUBLICKEY')
     },
     installments: {
-        ENABLED: getCustomPreference('MercadoPago_EnableInstallments'),
-        MIN_VALUE: getCustomPreference('MercadoPago_InstallmentMinValue'),
-        MAX_QTY: getCustomPreference('MercadoPago_MaxInstallments')
+        ENABLED: getCustomPreference('MercadoPago_EnableInstallments')
     }
 };

@@ -22,3 +22,5 @@ test/appium/webdriver/config.json
 .idea
 test/acceptance/report
 test/integration/config.json
+cartridges/int_mercadopago_sfra/cartridge/static/default/**
+
