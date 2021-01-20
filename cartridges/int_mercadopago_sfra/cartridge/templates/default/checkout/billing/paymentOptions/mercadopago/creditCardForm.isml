@@ -13,6 +13,7 @@
        name="${creditFields.cardType.htmlName}"
        value="">
 
+<input type="hidden" id="MP_cardToken" name="${creditFields.cardToken.htmlName}" value="">
 <input type="hidden" id="amount" value="${pdict.basketTotal || 0}">
 
 <div class="row">
@@ -22,6 +23,7 @@
             ${creditFields.cardNumber.htmlName}">
             <label class="form-control-label" for="cardNumber">${Resource.msg('field.credit.card.number','creditCard',null)}</label>
             <input type="text" class="form-control input-background" id="MP_cardNumber"
+                name="${creditFields.cardNumber.htmlName}"
                 value="${pdict.order.billing.payment.selectedPaymentInstruments
                     && pdict.order.billing.payment.selectedPaymentInstruments.length > 0
                     ? pdict.order.billing.payment.selectedPaymentInstruments[0].maskedCreditCardNumber||''

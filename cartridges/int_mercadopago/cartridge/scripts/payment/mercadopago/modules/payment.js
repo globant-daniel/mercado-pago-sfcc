@@ -1,13 +1,14 @@
 'use strict';
 
-var endpoints = require('./endpoints');
+var paymentEndpoints = require('./endpoints').payment;
+var Payment = require('../documents/payment');
 
 /**
  * @param {string} paymentId mercado pago api payment ID
  * @returns {Object} mercado pago api response
  */
 function get(paymentId) {
-    var response = endpoints.getPayment(paymentId);
+    var response = paymentEndpoints.get(paymentId);
     if (!response.ok) {
         var Logger = require('dw/system/Logger');
         Logger.error(
@@ -20,7 +21,25 @@ function get(paymentId) {
     return JSON.parse(response.object.text);
 }
 
-// function create() {}
+/**
+ * @param {dw.order.Order} order - customer order
+ * @returns {Object} result
+ */
+function create(order) {
+    var body = new Payment(order);
+    var result = paymentEndpoints.create(body);
+
+    if (!result.ok) {
+        var Logger = require('dw/system/Logger');
+        Logger.error(
+            'Error on payment creation. \nResponse: {0}',
+            result.errorMessage
+        );
+        return JSON.parse(result.errorMessage);
+    }
+
+    return JSON.parse(result.object.text);
+}
 
 /**
  * @param {dw.order.Order} order - customer order
@@ -29,23 +48,34 @@ function get(paymentId) {
  */
 function saveData(order, payment) {
     var Transaction = require('dw/system/Transaction');
+    var constants = require('../modules/constants');
     var Order = require('dw/order/Order');
 
-    var paymentInstrument = order.getPaymentInstruments('MERCADO_PAGO')[0];
+    var paymentInstrument = order.getPaymentInstruments(
+        constants.METHOD.REDIRECT
+    )[0];
+
+    var customerPayment = payment;
 
     var paymentStatus =
-        payment.status === 'approved'
+        customerPayment.status === 'approved'
             ? Order.PAYMENT_STATUS_PAID
             : Order.PAYMENT_STATUS_NOTPAID;
 
+    delete customerPayment.items;
+
     Transaction.wrap(function () {
-        paymentInstrument.custom.MercadoPago_Details = JSON.stringify(payment);
+        paymentInstrument.custom.MercadoPago_Details = JSON.stringify(
+            payment,
+            null,
+            2
+        );
         order.setPaymentStatus(paymentStatus);
     });
 }
 
 module.exports = {
     get: get,
-    // create: create,
+    create: create,
     saveData: saveData
 };

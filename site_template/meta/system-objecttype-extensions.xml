@@ -48,22 +48,45 @@
             </attribute-group>
         </group-definitions>
     </type-extension>
-    <custom-attribute-definitions>
 
-        <type-extension type-id="OrderPaymentInstrument">
-            <custom-attribute-definitions>
-                <attribute-definition attribute-id="MercadoPago_Details">
-                    <display-name xml:lang="x-default">Mercado Pago Details</display-name>
-                    <type>text</type>
-                    <mandatory-flag>false</mandatory-flag>
-                    <externally-managed-flag>false</externally-managed-flag>
-                </attribute-definition>
-            </custom-attribute-definitions>
-            <group-definitions>
-                <attribute-group group-id="Mercado Pago">
-                    <display-name xml:lang="x-default">Mercado Pago</display-name>
-                    <attribute attribute-id="MercadoPago_Details"/>
-                </attribute-group>
-            </group-definitions>
-        </type-extension>
-    </metadata>
+    <type-extension type-id="Order">
+        <custom-attribute-definitions>
+            <attribute-definition attribute-id="MercadoPago_OrderID">
+                <display-name xml:lang="x-default">Mercado Pago Merchant Order ID</display-name>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+        </custom-attribute-definitions>
+        <group-definitions>
+            <attribute-group group-id="Mercado Pago">
+                <display-name xml:lang="x-default">Mercado Pago</display-name>
+                <attribute attribute-id="MercadoPago_OrderID"/>
+            </attribute-group>
+        </group-definitions>
+    </type-extension>
+
+    <type-extension type-id="OrderPaymentInstrument">
+        <custom-attribute-definitions>
+            <attribute-definition attribute-id="MercadoPago_Details">
+                <display-name xml:lang="x-default">Mercado Pago Details</display-name>
+                <type>text</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="MercadoPago_Installments">
+                <display-name xml:lang="x-default">Mercado Pago Installments</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+        </custom-attribute-definitions>
+        <group-definitions>
+            <attribute-group group-id="Mercado Pago">
+                <display-name xml:lang="x-default">Mercado Pago</display-name>
+                <attribute attribute-id="MercadoPago_Details"/>
+                <attribute attribute-id="MercadoPago_Installments"/>
+            </attribute-group>
+        </group-definitions>
+    </type-extension>
+</metadata>

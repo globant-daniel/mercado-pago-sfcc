@@ -56,6 +56,22 @@ var preference = {
     }
 };
 
+var order = {
+    /**
+     * Creates a Merchant Order in the Mercado Pago API
+     * @param {Preference} document - merchant_order document
+     * @returns {dw.svc.Result} request response
+     */
+    create: function (document) {
+        var service = createService();
+        return service.call({
+            path: '/merchant_orders',
+            method: 'POST',
+            body: document
+        });
+    }
+};
+
 var payment = {
     /**
      * Retrives a payment via API call to Mercado Pago API
@@ -85,5 +101,6 @@ var payment = {
 
 module.exports = {
     payment: payment,
+    order: order,
     preference: preference
 };

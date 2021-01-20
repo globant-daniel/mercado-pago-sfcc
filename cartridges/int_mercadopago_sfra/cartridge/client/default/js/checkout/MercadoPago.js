@@ -1,13 +1,34 @@
-//REPLACE WITH YOUR PUBLIC KEY AVAILABLE IN: https://developers.mercadopago.com/panel/credentials
-
 module.exports = {
     init: function () {
         window.Mercadopago.setPublishableKey(window.MERCADOPAGO_PUBLICKEY);
         window.Mercadopago.getIdentificationTypes();
 
+        function serializeData (form) {
+            form.each(function (index, input) {
+                if (input.id === 'MP_cardNumber') {
+                    input.value = input.value.replace(/\s/g, '')
+                }
+
+                if (input.id === 'cardNumber') {
+                    input.value = $(input).data('cleave').getRawValue()
+                }
+            });
+
+            return form.serializeArray();
+        }
+
+        $('body')
+            .off('checkout:serializeBilling')
+            .on('checkout:serializeBilling', function (e, data) {
+                var serializedForm = serializeData(data.form);
+                console.log(serializedForm);
+
+                data.callback(serializedForm);
+            });
+
         $(document).on('change', '#MP_cardNumber', function () {
             cleanCardInfo();
-            var cardNumber = $(this).val().replace(/\s/g, '');;
+            var cardNumber = $(this).val().replace(/\s/g, '');
             if (cardNumber.length >= 6) {
                 var bin = cardNumber.substring(0, 6);
                 window.Mercadopago.getPaymentMethod({ bin: bin }, setCardType);
@@ -54,35 +75,6 @@ module.exports = {
                 });
             } else {
                 alert('installments method info error: ', response);
-            }
-        }
-
-        //Proceed with payment
-        doSubmit = false;
-        function getCardToken(event) {
-            event.preventDefault();
-            if (!doSubmit) {
-                var $form = document.getElementById('paymentForm');
-                window.Mercadopago.createToken($form, setCardTokenAndPay);
-
-                return false;
-            }
-        }
-
-        function setCardTokenAndPay(status, response) {
-            if (status == 200 || status == 201) {
-                var form = document.getElementById('paymentForm');
-                var card = document.createElement('input');
-                card.setAttribute('name', 'token');
-                card.setAttribute('type', 'hidden');
-                card.setAttribute('value', response.id);
-                form.appendChild(card);
-                doSubmit = true;
-                form.submit(); //Submit form data to your backend
-            } else {
-                alert(
-                    'Verify filled data!\n' + JSON.stringify(response, null, 4)
-                );
             }
         }
 

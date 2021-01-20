@@ -6,6 +6,7 @@ module.exports = {
      * @returns {Object} { fieldErrors, serverErrors, error }
      */
     Handle: function (basket) {
+        var MercadoPago = require('*/cartridge/scripts/payment/mercadopago/index');
         var Transaction = require('dw/system/Transaction');
         Transaction.wrap(function () {
             basket
@@ -16,7 +17,7 @@ module.exports = {
                 });
 
             basket.createPaymentInstrument(
-                'MERCADO_PAGO',
+                MercadoPago.constants.METHOD.REDIRECT,
                 basket.getTotalGrossPrice()
             );
         });

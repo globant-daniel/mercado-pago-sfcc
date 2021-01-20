@@ -19,12 +19,15 @@ server.prepend('PlaceOrder', function (req, res, next) {
      * @param {dw.order.Basket} basket target
      * @returns {boolean} true if mercado pago is being used
      */
-    function hasMercadoPagoPayment(basket) {
+    function hasMercadoPagoRedirectPayment(basket) {
         var result = false;
         basket.paymentInstruments
             .toArray()
             .forEach(function (paymentInstrument) {
-                if (paymentInstrument.paymentMethod === 'MERCADO_PAGO') {
+                if (
+                    paymentInstrument.paymentMethod ===
+                    MercadoPago.constants.METHOD.redirect
+                ) {
                     result = true;
                 }
             });
@@ -42,9 +45,9 @@ server.prepend('PlaceOrder', function (req, res, next) {
         return next();
     }
 
-    var hasMercadoPago = hasMercadoPagoPayment(currentBasket);
+    var hasMercadoPagoRedirect = hasMercadoPagoRedirectPayment(currentBasket);
 
-    if (!hasMercadoPago) {
+    if (!hasMercadoPagoRedirect) {
         return next();
     }
 
@@ -85,7 +88,7 @@ server.prepend('PlaceOrder', function (req, res, next) {
     var System = require('dw/system/System');
     var IS_PRODUCTION = System.getInstanceType() === System.PRODUCTION_SYSTEM;
 
-    var preference = MercadoPago.preferences.create(order);
+    var preference = MercadoPago.preference.create(order);
 
     if (order.getCustomerEmail()) {
         COHelpers.sendConfirmationEmail(order, req.locale.id);
