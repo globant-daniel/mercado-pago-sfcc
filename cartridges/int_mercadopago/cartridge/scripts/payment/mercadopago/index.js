@@ -20,7 +20,7 @@ function MercadoPago() {}
 MercadoPago.payment = importScript('modules/payment');
 MercadoPago.constants = importScript('modules/constants');
 MercadoPago.configuration = importScript('modules/configuration');
-MercadoPago.preference = importScript('modules/preferences');
+MercadoPago.preference = importScript('modules/preference');
 MercadoPago.order = importScript('modules/order');
 
 module.exports = MercadoPago;

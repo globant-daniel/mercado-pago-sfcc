@@ -1,7 +1,5 @@
 'use strict';
 
-var MercadoPago = require('*/cartridge/scripts/payment/mercadopago/index');
-
 module.exports = {
     /**
      * @param {dw.order.Basket} basket - basket to be handled
@@ -9,9 +7,11 @@ module.exports = {
      * @returns {Object} { fieldErrors, serverErrors, error }
      */
     Handle: function (basket, paymentInfo) {
+        var MercadoPago = require('*/cartridge/scripts/payment/mercadopago/index');
         var Transaction = require('dw/system/Transaction');
         var Resource = require('dw/web/Resource');
         var collections = require('*/cartridge/scripts/util/collections');
+
         var currentBasket = basket;
 
         if (!paymentInfo.cardToken) {
@@ -47,6 +47,9 @@ module.exports = {
                 paymentInfo.expirationYear
             );
             paymentInstrument.setCreditCardToken(paymentInfo.cardToken);
+
+            paymentInstrument.custom.MercadoPago_Installments =
+                paymentInfo.installments;
         });
 
         return { fieldErrors: {}, serverErrors: {}, error: false };
@@ -54,27 +57,45 @@ module.exports = {
     Authorize: function (orderNumber, paymentInstrument, paymentProcessor) {
         var Transaction = require('dw/system/Transaction');
         var OrderMgr = require('dw/order/OrderMgr');
+        var MercadoPago = require('*/cartridge/scripts/payment/mercadopago/index');
 
-        var orderPaymentInstrument = paymentInstrument;
         var order = OrderMgr.getOrder(orderNumber);
-        var merchantOrder = MercadoPago.order.create(order);
-
-        if (merchantOrder.error) {
-            return { error: true };
-        }
+        var orderPaymentInstrument = paymentInstrument;
+        var result = { error: true };
 
         Transaction.wrap(function () {
-            orderPaymentInstrument.paymentTransaction.setTransactionID(orderNumber);
+            orderPaymentInstrument.paymentTransaction.setTransactionID(
+                orderNumber
+            );
             orderPaymentInstrument.paymentTransaction.setPaymentProcessor(
                 paymentProcessor
             );
-            order.custom.MercadoPago_OrderID = merchantOrder.id;
         });
+
+        // var preference = MercadoPago.preference.create(order);
+
+        // if (preference.error) {
+        //     return result;
+        // }
+
+        // Transaction.wrap(function () {
+        //     order.custom.MercadoPago_PreferenceID = preference.id;
+        // });
+
+        // var merchantOrder = MercadoPago.order.create(order);
+
+        // if (merchantOrder.error) {
+        //     return result;
+        // }
+
+        // Transaction.wrap(function () {
+        //     order.custom.MercadoPago_OrderID = merchantOrder.id;
+        // });
 
         var payment = MercadoPago.payment.create(order);
 
         if (payment.error || payment.status === 'rejected') {
-            return { error: true };
+            return result;
         }
 
         if (payment.status === 'approved') {
@@ -89,6 +110,7 @@ module.exports = {
             2
         );
 
-        return { error: false };
+        result.error = false;
+        return result;
     }
 };

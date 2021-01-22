@@ -1,7 +1,7 @@
 'use strict';
 
+var Preference = require('../documents/preference');
 var endpoints = require('./endpoints');
-var Preference = require('documents/preference');
 
 /**
  * @param {dw.order.Order} order - order to be based upon
@@ -15,7 +15,7 @@ function create(order) {
     if (!result.ok) {
         var Logger = require('dw/system/Logger');
         Logger.error(
-            'Error on preference creation. \nResponse: {0}',
+            'Error in preference creation. \nResponse: {0}',
             result.errorMessage
         );
         return JSON.parse(result.errorMessage);

@@ -12,7 +12,7 @@ function get(paymentId) {
     if (!response.ok) {
         var Logger = require('dw/system/Logger');
         Logger.error(
-            'Error on get payment. \nResponse: {0}',
+            'Error in get payment. \nResponse: {0}',
             response.errorMessage
         );
         return JSON.parse(response.errorMessage);
@@ -32,7 +32,7 @@ function create(order) {
     if (!result.ok) {
         var Logger = require('dw/system/Logger');
         Logger.error(
-            'Error on payment creation. \nResponse: {0}',
+            'Error in payment creation. \nResponse: {0}',
             result.errorMessage
         );
         return JSON.parse(result.errorMessage);

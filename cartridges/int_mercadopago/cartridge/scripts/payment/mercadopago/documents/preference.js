@@ -6,27 +6,24 @@
  * @param {dw.order.Order} order customer order
  */
 function Preference(order) {
-    var Order = require('dw/order/Order');
     var URLUtils = require('dw/web/URLUtils');
     var Site = require('dw/system/Site');
     var Items = require('./items');
-
-    if (!(order instanceof Order)) {
-        throw new TypeError('Parameter in Preference document is not a Order');
-    }
+    var Resource = require('dw/web/Resource');
 
     this.external_reference = order.orderNo;
-
     this.items = new Items(order);
-
     this.payer = {
         name: order.billingAddress.firstName,
         surname: order.billingAddress.lastName,
         customerEmail: order.customerEmail
     };
-
-    var siteName = Site.getCurrent().name;
-    this.marketplace = siteName;
+    this.marketplace = Resource.msgf(
+        'payment.statement_descriptor',
+        'mercadopago',
+        null,
+        Site.getCurrent().name
+    );
 
     var returnUrl = URLUtils.https(
         'Order-Confirm',
@@ -42,7 +39,6 @@ function Preference(order) {
         failure: returnUrl // TODO: it may not be appropriate, needs recheck in the future
     };
     this.auto_return = 'approved';
-    this.notification_url = URLUtils.https('MercadoPago-Notify').toString();
 }
 
 module.exports = Preference;

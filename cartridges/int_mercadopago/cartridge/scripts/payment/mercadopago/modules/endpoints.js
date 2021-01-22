@@ -3,6 +3,7 @@
 /*eslint-disable */
 var Preference = require('../documents/preference');
 var Payment = require('../documents/payment');
+var MerchantOrder = require('../documents/merchant_order');
 /*eslint-enable */
 
 /**
@@ -58,8 +59,19 @@ var preference = {
 
 var order = {
     /**
+     * Retrives a Merchant Order in the Mercado Pago API
+     * @param {string} orderId - Merchant Order ID
+     * @returns {dw.svc.Result} request response
+     */
+    get: function (orderId) {
+        var service = createService();
+        return service.call({
+            path: '/merchant_orders/' + orderId
+        });
+    },
+    /**
      * Creates a Merchant Order in the Mercado Pago API
-     * @param {Preference} document - merchant_order document
+     * @param {MerchantOrder} document - merchant_order document
      * @returns {dw.svc.Result} request response
      */
     create: function (document) {
