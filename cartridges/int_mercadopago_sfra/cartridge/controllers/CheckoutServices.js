@@ -26,7 +26,7 @@ server.prepend('PlaceOrder', function (req, res, next) {
             .forEach(function (paymentInstrument) {
                 if (
                     paymentInstrument.paymentMethod ===
-                    MercadoPago.constants.METHOD.redirect
+                    MercadoPago.constants.METHOD.REDIRECT
                 ) {
                     result = true;
                 }

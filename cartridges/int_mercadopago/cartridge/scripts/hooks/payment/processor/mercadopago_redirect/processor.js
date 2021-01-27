@@ -24,5 +24,7 @@ module.exports = {
 
         return { fieldErrors: [], serverErrors: [], error: false };
     },
-    Authorize: function () {}
+    Authorize: function () {
+        // This method shouldn't be called
+    }
 };

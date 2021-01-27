@@ -8,15 +8,13 @@ function Payment(order) {
     var Resource = require('dw/web/Resource');
     var Site = require('dw/system/Site');
     var Items = require('./items');
-    var preferences = require('*/cartridge/config/preferences');
     var constants = require('../modules/constants');
 
     this.payer = {
         id: order.customerNo,
         first_name: order.billingAddress.firstName,
         last_name: order.billingAddress.lastName,
-        email: order.customerEmail,
-        identification: preferences.getCustomerIdentification(order)
+        email: order.customerEmail
     };
     // this.order = {
     //     type: 'mercadopago',

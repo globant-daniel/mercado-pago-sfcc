@@ -94,21 +94,23 @@ module.exports = {
 
         var payment = MercadoPago.payment.create(order);
 
-        if (payment.error || payment.status === 'rejected') {
+        if (payment.error || payment.status === 'rejected' || payment.status >= 300) {
             return result;
         }
 
-        if (payment.status === 'approved') {
-            order.setPaymentStatus(order.PAYMENT_STATUS_PAID);
-        }
+        Transaction.wrap(function () {
+            if (payment.status === 'approved') {
+                order.setPaymentStatus(order.PAYMENT_STATUS_PAID);
+            }
 
-        delete payment.items;
+            delete payment.items;
 
-        orderPaymentInstrument.custom.MercadoPago_Details = JSON.stringify(
-            payment,
-            null,
-            2
-        );
+            orderPaymentInstrument.custom.MercadoPago_Details = JSON.stringify(
+                payment,
+                null,
+                2
+            );
+        });
 
         result.error = false;
         return result;

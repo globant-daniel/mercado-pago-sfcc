@@ -175,12 +175,14 @@ var scrollAnimate = require('base/components/scrollAnimate');
 
                     var billingAddressForm = $('#dwfrm_billing .billing-address-block :input').serialize();
 
+                    console.log('before', billingAddressForm)
                     $('body').trigger('checkout:serializeBilling', {
                         form: $('#dwfrm_billing .billing-address-block'),
                         data: billingAddressForm,
                         callback: function (data) {
                             if (data) {
                                 billingAddressForm = data;
+                                console.log('after', billingAddressForm)
                             }
                         }
                     });
@@ -201,10 +203,15 @@ var scrollAnimate = require('base/components/scrollAnimate');
                     var paymentInfoSelector = '#dwfrm_billing .' + activeTabId + ' .payment-form-fields :input';
 
                     if (window.Mercadopago && activeTabId === 'mercado-pago-content') {
-                        var $form = $(paymentInfoSelector);
+                        var $form = $(paymentInfoSelector + '[data-checkout]').get();
+                        $form = $form.reduce((acc, formInput) => {
+                            acc[formInput.dataset.checkout] = formInput.value
+                            return acc;
+                        }, {});
+
                         window.Mercadopago.createToken($form, function (status, response) {
                             if (status == 200 || status == 201) {
-                                $('#MP_cardToken').val(response.id);
+                                $(paymentInfoSelector + '#cardToken').val(response.id);
                             } else {
                                 alert(
                                     'Verify filled data!\n' + JSON.stringify(response, null, 4)

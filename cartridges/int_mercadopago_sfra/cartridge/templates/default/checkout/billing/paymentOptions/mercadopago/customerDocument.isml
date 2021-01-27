@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="col-6">
+        <div class="form-group required">
+            <label class="form-control-label" for="docNumber">
+                ${Resource.msg('field.credit.card.doc.number','creditCard',null)}
+            </label>
+            <input class="form-control" type="text" id="docNumber" data-checkout="docNumber" value="" />
+            <input type="hidden" data-checkout="docType" value="CPF" />
+        </div>
+    </div>
+</div>
+
