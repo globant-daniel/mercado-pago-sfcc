@@ -8,9 +8,9 @@ function MerchantOrder(order) {
     var Items = require('../documents/items');
 
 
-    // The follwing commented propeties are causing an error
+    // The follwing commented propeties were causing an error
     // from the Mercado Pago API: "Error when calling GetSite"
-    // and why it happens.
+    // I don't know why this happens.
 
     // this.site_id = Site.getCurrent().getCustomPreferenceValue('countryCode').value;
 

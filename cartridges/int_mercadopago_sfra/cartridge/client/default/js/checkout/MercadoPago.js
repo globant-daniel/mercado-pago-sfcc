@@ -1,61 +1,78 @@
 module.exports = {
-    init: function () {
-        var $selector = '#dwfrm_billing .mercado-pago-content .payment-form-fields :input';
+    init: () => {
+        const cleave = require('base/components/cleave');
+
         window.Mercadopago.setPublishableKey(window.MERCADOPAGO_PUBLICKEY);
         window.Mercadopago.getIdentificationTypes();
 
-        function serializeData (form) {
-            var cloneForm = form.clone();
-            cloneForm.each(function (index, input) {
-                if (input.dataset.checkout === 'cardNumber') {
-                    input.value = input.value.replace(/\s/g, '')
-                } else if (input.id === 'cardNumber') {
-                    input.value = $(input).data('cleave').getRawValue()
+        const mercadoPagoFields =
+            '#dwfrm_billing .mercado-pago-content .payment-form-fields ';
+
+        const selectors = {
+            cardNumber: mercadoPagoFields + 'input[data-checkout="cardNumber"]',
+            cardType: mercadoPagoFields + 'input#cardType',
+            paymentMethod: mercadoPagoFields + 'input#paymentMethodId',
+            installments: mercadoPagoFields + 'select#installments',
+            transactionAmount: mercadoPagoFields + 'input#transactionAmount'
+        };
+
+        cleave.handleCreditCardNumber(selectors.cardNumber);
+
+        function serializeData(form) {
+            form.each(function (index, item) {
+                if (item.name.indexOf('cardNumber') > -1) {
+                    item.value = $(`#${item.id}`).data('cleave').getRawValue(); // eslint-disable-line
+                }
+
+                if (item.dataset.checkout === 'cardNumber') {
+                    item.value = $(selectors.cardNumber)
+                        .data('cleave')
+                        .getRawValue(); // eslint-disable-line
                 }
             });
 
-            return cloneForm.serialize();
+            return form.serialize();
         }
 
         $('body')
             .off('checkout:serializeBilling')
             .on('checkout:serializeBilling', function (e, data) {
-                var serializedForm = serializeData(data.form);
+                const serializedForm = serializeData(data.form);
                 data.callback(serializedForm);
             });
 
-        $(document).on('change', $selector + '[data-checkout="cardNumber"]', function () {
+        $(document).on('change', selectors.cardNumber, function () {
             cleanCardInfo();
-            var cardNumber = $(this).val().replace(/\s/g, '');
+            const cardNumber = $(this).val().replace(/\s/g, '');
             if (cardNumber.length >= 6) {
-                var bin = cardNumber.substring(0, 6);
+                const bin = cardNumber.substring(0, 6);
                 window.Mercadopago.getPaymentMethod({ bin: bin }, setCardType);
             }
         });
 
         function setCardType(status, response) {
             if (status == 200) {
-                var paymentMethod = response[0];
+                const paymentMethod = response[0];
 
-                $($selector + '#cardType').val(paymentMethod.id);
-                $($selector + '#paymentMethodId').val(paymentMethod.id);
-                $($selector + '#cardNumber').css('backgroundImage', 'url(' + paymentMethod.thumbnail + ')')
+                $(selectors.cardType).val(paymentMethod.id);
+                $(selectors.paymentMethod).val(paymentMethod.id);
+                $(selectors.cardNumber).css(
+                    'backgroundImage',
+                    'url(' + paymentMethod.thumbnail + ')'
+                );
 
                 getInstallments(
                     paymentMethod.id,
-                    $($selector + '#transactionAmount').val()
+                    $(selectors.transactionAmount).val()
                 );
-            } else {
-                alert('payment method info error: ' + response);
             }
         }
 
-        function getInstallments(paymentMethodId, amount, issuerId) {
+        function getInstallments(paymentMethodId, amount) {
             window.Mercadopago.getInstallments(
                 {
                     payment_method_id: paymentMethodId,
-                    amount: parseFloat(amount),
-                    issuer_id: issuerId ? parseInt(issuerId) : undefined
+                    amount: parseFloat(amount)
                 },
                 setInstallments
             );
@@ -63,22 +80,20 @@ module.exports = {
 
         function setInstallments(status, response) {
             if (status == 200) {
-                var $installments = $($selector + '#installments');
-                $installments.html('');
+                const installments = $(selectors.installments);
+                installments.html('');
                 response[0].payer_costs.forEach(function (payerCost) {
-                    var opt = document.createElement('option');
+                    const opt = document.createElement('option');
                     opt.text = payerCost.recommended_message;
                     opt.value = payerCost.installments;
                     installments.append(opt);
                 });
-            } else {
-                alert('installments method info error: ', response);
             }
         }
 
         function cleanCardInfo() {
-            $($selector + '#cardNumber').css('backgroundImage', '');
-            $($selector + '#installments').html('');
+            $(selectors.cardNumber).css('backgroundImage', '');
+            $(selectors.installments).html('');
         }
     }
 };

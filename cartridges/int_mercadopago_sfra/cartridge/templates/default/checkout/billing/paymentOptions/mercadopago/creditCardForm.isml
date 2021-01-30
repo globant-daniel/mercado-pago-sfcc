@@ -48,7 +48,7 @@
             <label class="form-control-label" for="cardNumber">
                 ${Resource.msg('field.credit.card.number','creditCard',null)}
             </label>
-            <input type="text" id="cardNumber" data-checkout="cardNumber" class="form-control input-background"
+            <input type="text" data-checkout="cardNumber" class="form-control input-background"
                 value="${pdict.order.billing.payment.selectedPaymentInstruments
                     && pdict.order.billing.payment.selectedPaymentInstruments.length > 0
                     ? pdict.order.billing.payment.selectedPaymentInstruments[0].maskedCreditCardNumber||''

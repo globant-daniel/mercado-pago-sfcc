@@ -40,10 +40,10 @@
         <group-definitions>
             <attribute-group group-id="Mercado Pago">
                 <display-name xml:lang="x-default">Mercado Pago</display-name>
-                <attribute attribute-id="MercadoPago_PROD_ACCESSTOKEN"/>
-                <attribute attribute-id="MercadoPago_DEV_ACCESSTOKEN"/>
                 <attribute attribute-id="MercadoPago_PROD_PUBLICKEY"/>
                 <attribute attribute-id="MercadoPago_DEV_PUBLICKEY"/>
+                <attribute attribute-id="MercadoPago_PROD_ACCESSTOKEN"/>
+                <attribute attribute-id="MercadoPago_DEV_ACCESSTOKEN"/>
                 <attribute attribute-id="MercadoPago_EnableInstallments"/>
             </attribute-group>
         </group-definitions>

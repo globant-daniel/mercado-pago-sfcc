@@ -175,14 +175,12 @@ var scrollAnimate = require('base/components/scrollAnimate');
 
                     var billingAddressForm = $('#dwfrm_billing .billing-address-block :input').serialize();
 
-                    console.log('before', billingAddressForm)
                     $('body').trigger('checkout:serializeBilling', {
                         form: $('#dwfrm_billing .billing-address-block'),
                         data: billingAddressForm,
                         callback: function (data) {
                             if (data) {
                                 billingAddressForm = data;
-                                console.log('after', billingAddressForm)
                             }
                         }
                     });

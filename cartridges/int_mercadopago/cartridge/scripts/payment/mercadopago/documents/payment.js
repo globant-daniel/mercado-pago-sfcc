@@ -16,10 +16,7 @@ function Payment(order) {
         last_name: order.billingAddress.lastName,
         email: order.customerEmail
     };
-    // this.order = {
-    //     type: 'mercadopago',
-    //     id: order.custom.MercadoPago_OrderID
-    // };
+
     this.external_reference = order.orderNo;
     this.description = Resource.msgf(
         'payment.description',
